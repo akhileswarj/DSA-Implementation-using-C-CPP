@@ -1,0 +1,93 @@
+//Stack implelmentation using arrays
+#include<stdio.h>
+#include<stdlib.h>
+#define size 5
+
+int stack[size];
+int top = -1;
+
+void push()
+{
+	if(top == size - 1)
+	    printf("\nstack is full!");
+	else{
+		int value;
+		printf("\nenter the value: ");
+		scanf("%d", &value);
+		top++;
+		stack[top] = value;
+		printf("\nvalue inserted/pushed successfully.");
+	}    
+}
+
+void pop()
+{
+	if(top == -1)
+	    printf("\nstack is empty!");
+	else{
+		top--;
+		printf("\nvalue is removed successfully!");
+	}    
+}
+
+void peek()
+{
+	if(top == -1)
+	    printf("\nstack is empty!");
+	else
+	{
+		printf("peek value: %d", stack[top]);
+	}    
+}
+
+void display()
+{
+	if(top == -1)
+	    printf("\nstack is empty!");
+	else
+	{
+		int i;
+		printf("stack elements: ");
+		for(i=0; i<=top; i++)
+		    printf("%d ", 
+			stack[i]);
+	}    
+}
+
+void isEmpty()
+{
+	if(top == -1)
+	    printf("\nstack is empty!");
+	else
+	    printf("\nstack is not empty!");
+}
+
+int main()
+{
+	int opt;
+	printf("\n*Stack implementation using arrays*");
+	while(1)
+	{
+		printf("\nchoose operation: 1)push  2)pop  3)peek  4)display  5)isEmpty 6)exit \nenter option: ");
+	    scanf("%d", &opt);
+	    if(opt == 1)
+	        push();
+	    else if(opt == 2)
+	        pop();
+	    else if(opt == 3)
+	        peek();
+    	else if(opt == 4)
+	        display();
+	    else if(opt == 5)
+		    isEmpty();    
+	    else if(opt == 6){
+	    	printf("\nThank you!");
+		    break;
+	    }
+	    else
+	    	break;
+	}
+	
+	
+	return 0;
+}
