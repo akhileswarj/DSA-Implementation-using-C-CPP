@@ -1,0 +1,171 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node* next;
+};
+
+void print_list(struct node **head)
+{
+	struct node *p = *head;
+	if(p == NULL){
+		printf("\nThe list is empty");
+	}
+	else
+	{
+		printf("\nElements are: ");
+	    while(p != NULL){
+		    printf("%d ", p->data);
+		    p = p->next;
+	    }
+	}
+}
+
+void insertion_at_the_end(struct node **head)
+{
+	printf("\nInsertion at the end!");
+	struct node* temp = (struct node*)malloc(sizeof(struct node));
+	int value;
+	printf("\nenter the value: ");
+	scanf("%d", &value);
+	temp->data = value;
+	temp->next = NULL;
+	struct node *p = *head;
+	
+	if(p == NULL)
+	{
+		*head = temp;
+	}
+	else
+	{
+	    while(p->next != NULL)
+		{
+			p = p->next;
+		}   
+		p->next = temp;
+	}    
+	printf("\nvalue is inserted successfully.");
+}
+
+void insertion_at_specified_position(struct node **head)
+{
+	int position, value;
+	printf("\nenter the position and value: ");
+	scanf("%d%d", &position, &value);
+	
+	if(position == 0){
+		struct node *p = *head;
+		struct node *temp = (struct node*)malloc(sizeof(struct node));
+		temp->data = value;
+	    temp->next = p;
+	    *head = temp;
+	    printf("\nValue inserted at specified position.");
+	}
+	else
+	{
+		int cnt = 1;
+	    struct node *p = *head;
+    	while(p != NULL)
+	    {
+		    if(cnt == position)
+		        break;
+		    cnt++;
+		    p = p->next;    
+	    }
+	    if(p == NULL){
+	    	printf("\nInvalid position");
+	    }
+	    else
+	    {
+		    struct node *temp = (struct node*)malloc(sizeof(struct node));
+		    temp->data = value;
+		    temp->next = p->next;
+		    p->next = temp;
+		    printf("\nValue inserted at specified position.");
+	    }
+	}
+}
+
+void deletion(struct node **head)
+{
+	int target; 
+	printf("\nenter the target value: ");
+	scanf("%d", &target);
+	struct node *p = *head;
+	struct node *q = NULL;
+	while(p != NULL)
+	{
+		if(p->data == target)
+		    break;
+		q = p;
+		p = p->next;    
+	}
+	if(p == NULL)
+	    printf("\nTarget value is already not present!");
+	else if(q == NULL){
+		*head = p->next;
+		p->next = NULL;
+		free(p);
+		printf("\nvalue is deleted successfully.");
+	}    
+	else{ 
+		q->next = p->next;
+		p->next = NULL;
+		free(p);
+		printf("\nvalue is deleted successfully.");
+	}
+}
+
+void search(struct node **head)
+{
+	int target;
+	printf("\nenter the target value to search: ");
+	scanf("%d", &target);
+	struct node *p = *head;
+	int flag = -1;
+	while(p != NULL)
+	{
+		if(p->data == target){
+			flag = 1;
+			break;
+		}
+		p = p->next;
+	}
+	if(flag == 1)
+		printf("\nElement found in the LinkedList.");
+	else
+	    printf("\nElement not found!");	
+}
+
+int main()
+{
+	struct node* head = NULL;
+	
+	while(1)
+	{
+		int option;
+		printf("\n\nSingly Linked List Implementation!");
+		printf("\nChoose Operation: \n1)Insertion at the end\n2)Insertion at a specific position\n3)Deletion of the data\n4)Searching of data\n5)Display data\n6)Exit\nEnter option: ");
+		scanf("%d", &option);
+		if(option == 1)
+		    insertion_at_the_end(&head);
+		else if(option == 2)
+		    insertion_at_specified_position(&head);
+		else if(option ==3)
+		    deletion(&head);
+		else if(option == 4)
+		    search(&head);
+		else if(option == 5)
+		    print_list(&head);
+		else if(option == 6){
+			printf("\nThank you!");
+		}
+		else
+		    break;					    
+		             
+	}
+
+	
+	return 0;
+}
