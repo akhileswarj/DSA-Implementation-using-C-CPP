@@ -1,0 +1,104 @@
+//Stack implementation using linkedlist
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+	int data;
+	struct node *link;
+};
+struct node *top = NULL;
+
+void push()
+{
+	int value;
+	printf("\nenter value: ");
+	scanf("%d", &value);
+	struct node *temp = (struct node*)malloc(sizeof(struct node*));
+	temp->data = value;
+	temp->link = NULL;
+	if(top == NULL)
+	{
+		top = temp;
+	}
+	else{
+		temp->link = top;
+		top = temp;
+	}
+	printf("\nvalue inserted/pushed successfully!");
+}
+
+void pop()
+{
+	if(top == NULL)
+	    printf("\nstack is already empty!");
+	else{
+		struct node *p = top;
+		top = top->link;
+		p->link = NULL;
+		free(p);
+	}    
+	printf("\nvalue is popped successfully!");
+}
+
+void peek()
+{
+	if(top == NULL)
+	    printf("\nstack is already empty!");
+	else
+	    printf("\npeek element: %d", top->data);    
+}
+
+void display()
+{
+	if(top == NULL)
+	    printf("\nstack is already empty!");
+	else
+	{
+		struct node *p = top;
+		printf("\nstack elements: ");
+		while(p != NULL)
+		{
+			printf("%d ", p->data);
+			p = p->link;
+		}
+	}
+}
+
+void isEmpty()
+{
+	if(top == NULL)
+	    printf("\nstack is empty!");
+	else
+	    printf("\nstack is not empty!");
+}
+
+int main()
+{
+	int opt;
+	printf("\n*Stack implementation using arrays*");
+	while(1)
+	{
+		printf("\nchoose operation: 1)push  2)pop  3)peek  4)display  5)isEmpty 6)exit \nenter option: ");
+	    scanf("%d", &opt);
+	    if(opt == 1)
+	        push();
+	    else if(opt == 2)
+	        pop();
+	    else if(opt == 3)
+	        peek();
+    	else if(opt == 4)
+	        display();
+	    else if(opt == 5)
+		    isEmpty();    
+	    else if(opt == 6){
+	    	printf("\nThank you!");
+		    break;
+	    }
+	    else{
+	    	break;
+		}
+	}
+	
+	return 0;
+}
