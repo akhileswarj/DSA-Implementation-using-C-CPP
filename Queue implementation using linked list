@@ -1,0 +1,105 @@
+//Queue implementation using linked list
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+	int data;
+	struct node *link;
+};
+struct node *front = NULL;
+struct node *rear = NULL;
+
+void Enqueue()
+{
+	int value;
+	printf("\nenter value: ");
+	scanf("%d", &value);
+	struct node *temp = (struct node*)malloc(sizeof(struct node*));
+	temp->data = value;
+	temp->link = NULL;
+	if(front == NULL)
+	    front = rear = temp;
+	else
+	{
+		rear->link = temp;
+		rear = temp;
+	}    
+	printf("\ndata enqueued successfully.");
+}
+
+void Dequeue()
+{
+	if(front == NULL)
+	    printf("\nqueue is empty.");
+	else{
+		struct node *temp = front;
+		front = front->link;
+		temp->link = NULL;
+		free(temp);
+		if(front == NULL)
+		    rear = NULL;
+		printf("\ndata dequeued successfully.");
+	}    
+}
+
+void Peek()
+{
+	if(front == NULL)
+	    printf("\nqueue is empty.");
+	else
+		printf("peek value: %d", front->data);
+}
+
+void Display()
+{
+	if(front == NULL)
+	    printf("\nqueue is empty.");
+	else
+	{
+		struct node *p = front;
+	    printf("\nElements are: ");
+	    while(p != NULL)
+	    {
+	        printf("%d ", p->data);
+	        p = p->link;
+	    }
+	}
+}
+
+void isEmpty()
+{
+	if(front == NULL)
+	    printf("\nqueue is empty.");
+	else
+	    printf("\nqueue is not empty.");    
+}
+
+int main()
+{
+	printf("\n*queue implementation using linked list*");
+	while(1)
+	{
+		int opt;
+		printf("\nchoose operation: 1)Enqueue 2)Dequeue 3)Peek 4)Display 5)isEmpty 6)Exit\nchoose option: ");
+		scanf("%d", &opt);
+		if(opt == 1)
+	        Enqueue();
+	    else if(opt == 2)
+	        Dequeue();
+	    else if(opt == 3)
+	        Peek();
+    	else if(opt == 4)
+	        Display();
+	    else if(opt == 5)
+		    isEmpty();
+	    else if(opt == 6){
+	    	printf("\nThank you!");
+		    break;
+	    }
+	    else
+	        break;
+	}
+	
+	return 0;
+}
