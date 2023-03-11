@@ -1,0 +1,92 @@
+//queue implementation using arrays
+#include<stdio.h>
+#include<stdlib.h>
+#define size 10
+
+int front = -1;
+int rear = -1;
+int queue[size];
+
+void Enqueue()
+{
+	if(rear == size-1)
+	    printf("\nqueue is full!");
+	else{
+		int data;
+		printf("\nenter value: ");
+		scanf("%d", &data);
+		if(front == -1)
+		    front = 0;
+		rear++;
+		queue[rear] = data;
+		printf("\ndata Enqueued successfully");    
+	}    
+}
+
+void Dequeue()
+{
+	if(front == -1 || front > rear)
+	    printf("\nqueue is empty!");
+	else{
+		front++;
+		printf("\ndata Dequeued successfully");
+	}    
+}
+
+void Peek()
+{
+	if(front == -1 || front > rear)
+	    printf("\nqueue is empty!");
+	else
+	    printf("\npeek value: %d", queue[front]);    
+}
+
+void Display()
+{
+	if(front == -1 || front > rear)
+	    printf("\nqueue is empty!");
+	else
+	{
+		int i;
+		printf("\nElements are: ");
+		for(i=front; i<=rear; i++)
+		    printf("%d ", queue[i]);
+	}    
+}
+
+void isEmpty()
+{
+	if(front == -1 || front > rear)
+	    printf("\nqueue is empty!");
+	else
+	    printf("\nqueue is not empty!");    
+}
+
+int main()
+{
+	printf("\n*queue implementation using arrays*");
+	while(1)
+	{
+		int opt;
+		printf("\nchoose operation: 1)Enqueue 2)Dequeue 3)Peek 4)Display 5)isEmpty 6)Exit\nchoose option: ");
+		scanf("%d", &opt);
+		if(opt == 1)
+	        Enqueue();
+	    else if(opt == 2)
+	        Dequeue();
+	    else if(opt == 3)
+	        Peek();
+    	else if(opt == 4)
+	        Display();
+	    else if(opt == 5)
+		    isEmpty();
+	    else if(opt == 6){
+	    	printf("\nThank you!");
+		    break;
+	    }
+	    else
+	        break;
+	}
+	
+	return 0;
+}
