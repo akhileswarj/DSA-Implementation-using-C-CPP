@@ -1,0 +1,227 @@
+//binary search tree implementation
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left;
+    struct node *right;
+};
+
+struct node *newNode(int data)
+{
+    struct node *temp = (struct node*)malloc(sizeof(struct node *));
+    temp->data = data;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
+
+struct node *insert(struct node *my_node, int data)
+{
+    if(my_node == NULL)
+        return newNode(data);
+    else
+    {
+        if(data < my_node->data)
+            my_node->left = insert(my_node->left, data);
+        else
+            my_node->right = insert(my_node->right, data);
+
+        return my_node;
+    }
+}
+
+int find_maximum(struct node *my_node)
+{
+    if(my_node == NULL)
+        return -1;
+    if(my_node->right == NULL)
+        return my_node->data;
+    return find_maximum(my_node->right);
+}
+
+struct node *my_remove(struct node *my_node, int value)
+{
+    if(my_node == NULL)
+        return NULL;
+    else
+    {
+        if(my_node->data == value)
+        {
+            //no children(leaf node)
+            if(my_node->left == NULL && my_node->right == NULL)
+                my_node = NULL;
+            //if right child is present
+            else if(my_node->left == NULL)
+                my_node = my_node->right;
+            //if left child is present
+            else if(my_node->right == NULL)
+                my_node = my_node->left;
+            //if both children is present
+            else
+            {
+                int max_val = find_maximum(my_node->left);
+                my_node->data = max_val;
+                my_node->left = my_remove(my_node->left, max_val);
+            }
+        }
+        else if(value > my_node->data)
+            my_node->right = my_remove(my_node->right, value);
+        else
+            my_node->left = my_remove(my_node->left, value);
+        return my_node;
+    }
+}
+
+int search(struct node *my_node, int target)
+{
+    if(my_node == NULL)
+        return 0;
+    else
+    {
+        if(my_node->data == target)
+            return 1;
+        else if(target > my_node->data)
+                return search(my_node->right, target);
+        else
+            return search(my_node->left, target);
+    }
+}
+
+void inorder_traversal(struct node *my_root)
+{
+    if(my_root != NULL)
+    {
+        inorder_traversal(my_root->left);
+        printf("%d ", my_root->data);
+        inorder_traversal(my_root->right);
+    }
+}
+
+void preorder_traversal(struct node *my_root)
+{
+    if(my_root != NULL)
+    {
+        printf("%d ", my_root->data);
+        preorder_traversal(my_root->left);
+        preorder_traversal(my_root->right);
+    }
+}
+
+void postorder_traversal(struct node *my_root)
+{
+    if(my_root != NULL)
+    {
+        postorder_traversal(my_root->left);
+        postorder_traversal(my_root->right);
+        printf("%d ", my_root->data);
+    }
+}
+
+int find_minimum(struct node *my_node)
+{
+    if(my_node == NULL)
+        return -1;
+    if(my_node->left == NULL)
+        return my_node->data;
+    return find_minimum(my_node->left);
+}
+
+
+int getMax(int a, int b)
+{
+    if(a>b)
+        return a;
+    return b;
+}
+
+int find_height(struct node *my_node)
+{
+    if(my_node == NULL)
+        return -1;
+    else
+        return getMax(find_height(my_node->left), find_height(my_node->right)) + 1;
+}
+
+int main()
+{
+    printf("\nBinary search Tree");
+    struct node *root = NULL;
+    while(1)
+    {
+        int opt;
+        printf("\n choose operation: \n 1)Insertion \n 2)Removal \n 3)Search \n 4)Min value \n 5)Max value \n 6)Height \n 7)In order traversal \n 8)pre order traversal \n 9)post order traversal \n 10)exit \nChoose option: ");
+        scanf("%d", &opt);
+        if(opt == 1)
+        {
+            int data;
+            printf("\nenter value: ");
+            scanf("%d", &data);
+            root = insert(root, data);
+            printf("\nvalue inserted successfully.");
+        }
+        else if(opt == 2)
+        {
+            int value;
+            printf("\nenter the value to remove.");
+            scanf("%d", &value);
+            root = my_remove(root, value);
+        }
+        else if(opt == 3)
+        {
+            int target;
+            printf("\nenter the target value: ");
+            scanf("%d", &target);
+            int result = search(root, target);
+            if(result == 0)
+                printf("\ntarget value is not present.");
+            else
+                printf("\nvalue is present.");
+        }
+        else if(opt == 4)
+        {
+            int min = find_minimum(root);
+            if(min == -1)
+                printf("\nTree is empty");
+            else
+                printf("\nminimum value : %d", min);
+        }
+        else if(opt == 5)
+        {
+            int max = find_maximum(root);
+            if(max == -1)
+                printf("\nTree is empty");
+            else
+                printf("\nmaximum value : %d", max);
+        }
+        else if(opt == 6)
+        {
+            printf("\nHeight of the tree is : %d", find_height(root));
+        }
+        else if(opt ==7)
+        {
+            printf("\ninorder traversal: ");
+            inorder_traversal(root);
+        }
+        else if(opt == 8)
+        {
+            printf("\npreorder traversal: ");
+            preorder_traversal(root);
+        }
+        else if(opt == 9)
+        {
+            printf("\npostorder traversal: ");
+            postorder_traversal(root);
+        }
+        else if(opt == 10){
+            printf("\nThank you.");
+            break;
+        }
+        else
+            break;
+    }
+
+    return 0;
+}
